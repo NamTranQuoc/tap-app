@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "750576792264",
+    "project_id": "taph-be110",
+    "storage_bucket": "taph-be110.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750576792264:android:195af03596e70b10b16bfd",
+        "android_client_info": {
+          "package_name": "tap.h.taph"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750576792264-ks03sdph3d40m2r8m6ta6eue5kp9emea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxtroLifVuLxIo6AtyGYd17cZS6WR9jyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750576792264-ks03sdph3d40m2r8m6ta6eue5kp9emea.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750576792264-dophspotufett3nqf3airl8bbm8s913e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tap.h.taph"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
