@@ -45,5 +45,9 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>My taph app</string>
+	<key>NSCameraUsageDescription</key>
+	<string>My taph app</string>
 </dict>
 </plist>
