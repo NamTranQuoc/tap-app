@@ -43,6 +43,6 @@ Future<String> uploadImage(File file, {String? location}) async {
 }
 
 String getDownloadUrl(String path) {
-  String url = 'https://firebasestorage.googleapis.com/v0/b/nfo-app-8dc6d.appspot.com/o/${path.replaceAll("/", "%2F")}?alt=media';
+  String url = 'https://firebasestorage.googleapis.com/v0/b/taph-be110.appspot.com/o/${path.replaceAll("/", "%2F")}?alt=media';
   return url;
 }

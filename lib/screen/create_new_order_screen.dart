@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taph/common/constant_theme.dart';
 
-class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({Key? key}) : super(key: key);
+class CreateNewOrderScreen extends StatefulWidget {
+  const CreateNewOrderScreen({Key? key}) : super(key: key);
 
   @override
-  _AddProductScreenState createState() => _AddProductScreenState();
+  _CreateNewOrderScreenState createState() => _CreateNewOrderScreenState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class _CreateNewOrderScreenState extends State<CreateNewOrderScreen> {
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget build(BuildContext context) {
     return Container(
         color: ConstantTheme.background,
-        child: Text("Thêm sản phẩm")
+        child: Text("Tạo đơn hàng mới")
     );
   }
 }
