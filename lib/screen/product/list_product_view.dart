@@ -20,7 +20,7 @@ class _ListProductViewState extends State<ListProductView>
   AnimationController? animationController;
   bool firstLoading = true;
   bool hasMore = true;
-  int size = 10;
+  int size = 4;
   late DocumentSnapshot lastDocument;
   List<Product> products = [];
   int total = 0;
@@ -79,9 +79,11 @@ class _ListProductViewState extends State<ListProductView>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    double height = MediaQuery.of(context).size.height - 200;
+    return Container(
+        height: height,
         padding: const EdgeInsets.only(top: 8, bottom: 100, left: 16, right: 16),
-        child: Column(
+        child: ListView(
           children: [
             GridView.count(
               childAspectRatio: 0.8,

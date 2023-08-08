@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:taph/common/constant_theme.dart';
-import 'package:taph/screen/create_new_order_screen.dart';
 import 'package:taph/screen/product/add_product_screen.dart';
 import 'package:taph/screen/product/list_product_view.dart';
 
@@ -20,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
         color: ConstantTheme.background,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
