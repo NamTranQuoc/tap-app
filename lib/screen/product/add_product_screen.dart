@@ -11,9 +11,10 @@ import '../../entity/product_type.dart';
 import '../../repository/product_repository.dart';
 
 class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({Key? key, required this.code}) : super(key: key);
+  const AddProductScreen({Key? key, required this.code, required this.barcode}) : super(key: key);
 
   final String code;
+  final Widget barcode;
 
   @override
   _AddProductScreenState createState() => _AddProductScreenState();
@@ -53,6 +54,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
+                          const SizedBox(height: 8,),
+                          widget.barcode,
                           const Padding(
                             padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
                             child: Text(

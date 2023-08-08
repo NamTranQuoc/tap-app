@@ -1,6 +1,8 @@
+import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:taph/common/constant_theme.dart';
 import 'package:taph/screen/product/add_product_screen.dart';
 import 'package:taph/screen/product/list_product_view.dart';
@@ -32,21 +34,41 @@ class _HomeScreenState extends State<HomeScreen> {
                     textAlign: TextAlign.left,
                     style: ConstantTheme.ts1,
                   ),
-                  TextButton(
-                      onPressed: () {
-                        scanBarcodeNormal().then((value) {
-                          if (value != "") {
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            scanBarcodeNormal().then((value) {
+                              if (value != "" && value != "-1") {
+                                Navigator.push<dynamic>(
+                                  context,
+                                  MaterialPageRoute<dynamic>(
+                                      builder: (BuildContext context) =>
+                                          AddProductScreen(code: value, barcode: buildBarcode(value)),
+                                      fullscreenDialog: true),
+                                );
+                              }});
+                          },
+                          child: const Text("Scan",
+                            style: TextStyle(color: ConstantTheme.nearlyBlue),)
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            var barcode = DateTime.now().millisecondsSinceEpoch.toString();
+                            print(barcode);
                             Navigator.push<dynamic>(
                               context,
                               MaterialPageRoute<dynamic>(
                                   builder: (BuildContext context) =>
-                                  AddProductScreen(code: value,),
+                                      AddProductScreen(code: barcode, barcode: buildBarcode(barcode),),
                                   fullscreenDialog: true),
                             );
-                          }});
-                      },
-                      child: const Text("Thêm",
-                        style: TextStyle(color: ConstantTheme.nearlyBlue),)
+                          },
+                          child: const Text("Gen",
+                            style: TextStyle(color: ConstantTheme.nearlyBlue),)
+                      )
+                    ],
                   )
                 ],
               )
@@ -57,6 +79,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         )
     );
+  }
+
+  Widget buildBarcode(String barcode) {
+    /// Create the Barcode
+    final svg = Barcode.code128().toSvg(
+      barcode,
+      width: 300,
+      height: 100,
+    );
+    return SvgPicture.string(svg);
   }
 
   Future<String> scanBarcodeNormal() async {
