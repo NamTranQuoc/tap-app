@@ -24,6 +24,7 @@ dependencies:
   multiselect_formfield: ^0.1.7
   barcode: ^2.2.4
   flutter_svg: ^1.1.6
+  printing: ^5.9.3
 
 dev_dependencies:
   flutter_test:

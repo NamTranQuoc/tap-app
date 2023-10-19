@@ -33,9 +33,9 @@ class ProductView extends StatelessWidget {
             child: InkWell(
               splashColor: Colors.transparent,
               onTap: () {
-                Navigator.push<dynamic>(
+                Navigator.push<bool>(
                   context,
-                  MaterialPageRoute<dynamic>(
+                  MaterialPageRoute<bool>(
                     builder: (BuildContext context) => ProductDetailView(
                       product: product,
                     ),

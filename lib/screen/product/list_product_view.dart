@@ -6,9 +6,7 @@ import 'package:taph/screen/product/product_view.dart';
 import '../../common/constant_theme.dart';
 
 class ListProductView extends StatefulWidget {
-  const ListProductView({Key? key, this.callBack}) : super(key: key);
-
-  final Function()? callBack;
+  const ListProductView({Key? key}) : super(key: key);
 
   @override
   _ListProductViewState createState() => _ListProductViewState();
@@ -67,9 +65,11 @@ class _ListProductViewState extends State<ListProductView>
   }
 
   handleAfterFetchComplete(QuerySnapshot querySnapshot) {
-    lastDocument = querySnapshot.docs.last;
-    for (var doc in querySnapshot.docs) {
-      products.add(Product.fromSnapshot(doc));
+    if (querySnapshot.docs.isNotEmpty) {
+      lastDocument = querySnapshot.docs.last;
+      for (var doc in querySnapshot.docs) {
+        products.add(Product.fromSnapshot(doc));
+      }
     }
 
     if (products.length >= total) {
@@ -105,7 +105,7 @@ class _ListProductViewState extends State<ListProductView>
                   product: e,
                   animation: animation,
                   animationController: animationController,
-                  callback: widget.callBack,
+                  callback: getProducts,
                 );
               }).toList(),
             ),

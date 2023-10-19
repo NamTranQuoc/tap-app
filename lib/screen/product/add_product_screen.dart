@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taph/common/constant_theme.dart';
@@ -127,16 +128,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           setState(() => _isLoading = true);
                           if (_formKey.currentState!.validate() && imageFiles.isNotEmpty) {
                             uploadImages().then((value) {
+                              var email = FirebaseAuth.instance.currentUser?.email;
                               Product product1 = Product(images: value,
                                   types: types.map((e) {
                                     return ProductType.fromController(e);
                                   }).toList(),
                                   createdDate: DateTime.now(),
+                                  createdBy: email!,
                                   name: name.text,
                                   description: description.text,
                                   code: codeText.text);
                               addProduct(product1).then((value) {
-                                Navigator.pop(context);
+                                Navigator.pop(context, true);
                               });
                             });
                           } else {
@@ -305,7 +308,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   Widget validatorImage() {
-    if (!_errorImage) {
+    if (_errorImage) {
       return const Text("Chọn ít nhất một hình ảnh",
           style: TextStyle(color: ConstantTheme.nearlyRed, fontSize: 11));
     } else {
@@ -340,7 +343,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     Radius.circular(32.0),
                   ),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, false);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),

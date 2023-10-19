@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         }
       },
       child: MaterialApp(
-        title: 'NFO',
+        title: 'QN',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primarySwatch: Colors.blue

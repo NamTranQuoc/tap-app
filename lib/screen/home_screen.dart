@@ -73,9 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               )
             ),
-            ListProductView(
-              callBack: () {},
-            ),
+            ListProductView(),
           ],
         )
     );

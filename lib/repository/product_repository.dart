@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../entity/product.dart';
 
@@ -10,8 +11,10 @@ Future<void> addProduct(Product product) async {
 }
 
 Future<List<Product>> getAllProduct(String sort, int size, QuerySnapshot _querySnapshot) async {
+  var email = FirebaseAuth.instance.currentUser?.email;
   List<Product> product = [];
   await db
+      .where("created_by", isEqualTo: email)
       .orderBy(sort, descending: true)
       .limit(size)
       .get()
