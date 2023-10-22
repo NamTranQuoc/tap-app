@@ -19,7 +19,7 @@ class _ListProductViewState extends State<ListProductView>
   AnimationController? animationController;
   bool firstLoading = true;
   bool hasMore = true;
-  int size = 4;
+  int size = 10;
   late DocumentSnapshot lastDocument;
   List<Product> products = [];
   int total = 0;
@@ -44,6 +44,7 @@ class _ListProductViewState extends State<ListProductView>
   reloadProduct() async {
     products = [];
     firstLoading = true;
+    hasMore = true;
     await db.count().get().then((value) {
       total = value.count;
       getProducts();

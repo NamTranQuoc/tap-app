@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image/image.dart' as img;
 
 final storageRef = FirebaseStorage.instance.ref();
 
@@ -10,9 +11,11 @@ Future<String> uploadImage(File file, {String? location}) async {
   final metadata = SettableMetadata(contentType: "image/png");
 
 // Upload file and metadata to the path 'images/mountains.jpg'
-  await storageRef
-      .child(path)
-      .putFile(file, metadata);
+  await resizeImage(file).then((value) async {
+    await storageRef
+        .child(path)
+        .putFile(value, metadata);
+  });
 
   return path;
 
@@ -40,6 +43,21 @@ Future<String> uploadImage(File file, {String? location}) async {
 //     }
 //   }
 //   );
+}
+
+Future<File> resizeImage(File imageFile) async {
+  final rawBytes = await imageFile.readAsBytes();
+  final decodedImage = img.decodeImage(rawBytes);
+
+  if (decodedImage != null) {
+    final resizedImage = img.copyResize(decodedImage, width: 200);
+    final resizedBytes = img.encodeJpg(resizedImage, quality: 80);
+    final resizedFile = File(imageFile.path)..writeAsBytesSync(resizedBytes);
+
+    return resizedFile;
+  } else {
+    return imageFile;
+  }
 }
 
 String getDownloadUrl(String path) {

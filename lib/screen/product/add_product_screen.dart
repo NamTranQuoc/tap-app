@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:taph/common/constant_theme.dart';
 
@@ -191,28 +190,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Future<List<String>> uploadImages() async {
     List<String> list = [];
     for (var element in imageFiles) {
-      await resizeImage(element).then((value) async {
-        await uploadImage(value).then((value) {
-          list.add(value);
-        });
+      await uploadImage(element).then((value) {
+        list.add(value);
       });
     }
     return list;
-  }
-
-  Future<File> resizeImage(File imageFile) async {
-    final rawBytes = await imageFile.readAsBytes();
-    final decodedImage = img.decodeImage(rawBytes);
-
-    if (decodedImage != null) {
-      final resizedImage = img.copyResize(decodedImage, width: 200);
-      final resizedBytes = img.encodeJpg(resizedImage, quality: 80);
-      final resizedFile = File(imageFile.path)..writeAsBytesSync(resizedBytes);
-
-      return resizedFile;
-    } else {
-      return imageFile;
-    }
   }
 
   Widget listImage(double width) {
