@@ -41,13 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           onPressed: () {
                             scanBarcodeNormal().then((value) {
                               if (value != "" && value != "-1") {
-                                Navigator.push<dynamic>(
+                                Navigator.push<bool>(
                                   context,
-                                  MaterialPageRoute<dynamic>(
+                                  MaterialPageRoute<bool>(
                                       builder: (BuildContext context) =>
                                           AddProductScreen(code: value, barcode: buildBarcode(value)),
                                       fullscreenDialog: true),
-                                );
+                                ).then((value) {
+                                  print(value);
+                                  if (value != null && value) {
+                                    keyListProductScreen.currentState?.reloadProduct();
+                                  }
+                                });
                               }});
                           },
                           child: const Text("Scan",
@@ -63,7 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   builder: (BuildContext context) =>
                                       AddProductScreen(code: barcode, barcode: buildBarcode(barcode),),
                                   fullscreenDialog: true),
-                            );
+                            ).then((value) {
+                              if (value != null && value) {
+                                keyListProductScreen.currentState?.reloadProduct();
+                              }
+                            });
                           },
                           child: const Text("Gen",
                             style: TextStyle(color: ConstantTheme.nearlyBlue),)
@@ -73,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               )
             ),
-            ListProductView(),
+            ListProductView(key: keyListProductScreen,),
           ],
         )
     );

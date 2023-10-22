@@ -5,6 +5,7 @@ import 'package:taph/screen/product/product_view.dart';
 
 import '../../common/constant_theme.dart';
 
+final GlobalKey<_ListProductViewState> keyListProductScreen = GlobalKey();
 class ListProductView extends StatefulWidget {
   const ListProductView({Key? key}) : super(key: key);
 
@@ -38,6 +39,15 @@ class _ListProductViewState extends State<ListProductView>
     }
 
     asyncTasks();
+  }
+
+  reloadProduct() async {
+    products = [];
+    firstLoading = true;
+    await db.count().get().then((value) {
+      total = value.count;
+      getProducts();
+    });
   }
 
   getProducts() async {
