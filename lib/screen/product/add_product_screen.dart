@@ -31,6 +31,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   TextEditingController description = TextEditingController();
   TextEditingController codeText = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  int selectImageIndex = -1;
 
   @override
   void initState() {
@@ -43,140 +44,148 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget build(BuildContext context) {
     double widthImage = (MediaQuery.of(context).size.width / 3) - 30;
     return Container(
-        color: ConstantTheme.background,
-        child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Column(
-              children: [
-                getAppBarUI(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          const SizedBox(height: 8,),
-                          widget.barcode,
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
-                            child: Text(
-                              'Hình ảnh',
-                              textAlign: TextAlign.left,
-                              style: ConstantTheme.ts2,
+      color: ConstantTheme.background,
+      child: GestureDetector(
+          onTap: () {
+            if (selectImageIndex >= 0) {
+              setState(() {
+                selectImageIndex = -1; // Ẩn overlay khi nhấn ra ngoài
+              });
+            }
+          },
+          child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Column(
+                children: [
+                  getAppBarUI(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: <Widget>[
+                            const SizedBox(height: 8,),
+                            widget.barcode,
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
+                              child: Text(
+                                'Hình ảnh',
+                                textAlign: TextAlign.left,
+                                style: ConstantTheme.ts2,
+                              ),
                             ),
-                          ),
-                          listImage(widthImage),
-                          const Divider(
-                            thickness: 2,
-                            endIndent: 32,
-                            indent: 32,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
-                            child: Text(
-                              'Thông tin chung',
-                              textAlign: TextAlign.left,
-                              style: ConstantTheme.ts2,
+                            listImage(widthImage),
+                            const Divider(
+                              thickness: 2,
+                              endIndent: 32,
+                              indent: 32,
                             ),
-                          ),
-                          textField("Mã sản phẩm", codeText, type: TextInputType.text, enable: false, validator: validateNotBlank),
-                          textField("Tên sản phẩm", name, type: TextInputType.text, enable: !_isLoading, validator: validateNotBlank),
-                          textField("Mô tả", description, type: TextInputType.multiline, maxLine: 4, enable: !_isLoading),
-                          const SizedBox(height: 10,),
-                          const Divider(
-                            thickness: 2,
-                            endIndent: 32,
-                            indent: 32,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
-                            child: Text(
-                              'Loại Sản phẩm',
-                              textAlign: TextAlign.left,
-                              style: ConstantTheme.ts2,
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
+                              child: Text(
+                                'Thông tin chung',
+                                textAlign: TextAlign.left,
+                                style: ConstantTheme.ts2,
+                              ),
                             ),
+                            textField("Mã sản phẩm", codeText, type: TextInputType.text, enable: false, validator: validateNotBlank),
+                            textField("Tên sản phẩm", name, type: TextInputType.text, enable: !_isLoading, validator: validateNotBlank),
+                            textField("Mô tả", description, type: TextInputType.multiline, maxLine: 4, enable: !_isLoading),
+                            const SizedBox(height: 10,),
+                            const Divider(
+                              thickness: 2,
+                              endIndent: 32,
+                              indent: 32,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
+                              child: Text(
+                                'Loại Sản phẩm',
+                                textAlign: TextAlign.left,
+                                style: ConstantTheme.ts2,
+                              ),
+                            ),
+                            listType(widthImage)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Divider(
+                    height: 1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, bottom: 16, top: 8),
+                    child: Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: ConstantTheme.nearlyBlue,
+                        borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 8,
+                            offset: const Offset(4, 4),
                           ),
-                          listType(widthImage)
                         ],
                       ),
-                    ),
-                  ),
-                ),
-                const Divider(
-                  height: 1,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 16, bottom: 16, top: 8),
-                  child: Container(
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: ConstantTheme.nearlyBlue,
-                      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          blurRadius: 8,
-                          offset: const Offset(4, 4),
-                        ),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: OutlinedButton.icon(
-                        onPressed: _isLoading ? null : () {
-                          setState(() => _isLoading = true);
-                          if (_formKey.currentState!.validate() && imageFiles.isNotEmpty) {
-                            uploadImages().then((value) {
-                              var email = FirebaseAuth.instance.currentUser?.email;
-                              Product product1 = Product(images: value,
-                                  types: types.map((e) {
-                                    return ProductType.fromController(e);
-                                  }).toList(),
-                                  createdDate: DateTime.now(),
-                                  createdBy: email!,
-                                  name: name.text,
-                                  description: description.text,
-                                  code: codeText.text);
-                              addProduct(product1).then((value) {
-                                Navigator.pop(context, true);
+                      child: Material(
+                        color: Colors.transparent,
+                        child: OutlinedButton.icon(
+                          onPressed: _isLoading ? null : () {
+                            setState(() => _isLoading = true);
+                            if (_formKey.currentState!.validate() && imageFiles.isNotEmpty) {
+                              uploadImages().then((value) {
+                                var email = FirebaseAuth.instance.currentUser?.email;
+                                Product product1 = Product(images: value,
+                                    types: types.map((e) {
+                                      return ProductType.fromController(e);
+                                    }).toList(),
+                                    createdDate: DateTime.now(),
+                                    createdBy: email!,
+                                    name: name.text,
+                                    description: description.text,
+                                    code: codeText.text);
+                                addProduct(product1).then((value) {
+                                  Navigator.pop(context, true);
+                                });
                               });
-                            });
-                          } else {
-                            if (imageFiles.isEmpty) {
-                              _errorImage = true;
+                            } else {
+                              if (imageFiles.isEmpty) {
+                                _errorImage = true;
+                              }
+                              setState(() {
+                                _isLoading = false;
+                              });
                             }
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          }
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0)
-                          )),
-                          backgroundColor: MaterialStateProperty.all(ConstantTheme.nearlyBlue),
-                          side: MaterialStateProperty.all(const BorderSide(width: 5.0, color: ConstantTheme.nearlyBlue)),
-                        ),
-                        icon: _isLoading
-                            ? Container(
-                          width: 24,
-                          height: 24,
-                          padding: const EdgeInsets.all(2.0),
-                          child: const CircularProgressIndicator(
-                            color: ConstantTheme.c6,
-                            strokeWidth: 3,
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0)
+                            )),
+                            backgroundColor: MaterialStateProperty.all(ConstantTheme.nearlyBlue),
+                            side: MaterialStateProperty.all(const BorderSide(width: 5.0, color: ConstantTheme.nearlyBlue)),
                           ),
-                        )
-                            : const Icon(Icons.add, color: ConstantTheme.c6,),
-                        label: const Text('Lưu sản phẩm', style: TextStyle(color: ConstantTheme.c6),),
+                          icon: _isLoading
+                              ? Container(
+                            width: 24,
+                            height: 24,
+                            padding: const EdgeInsets.all(2.0),
+                            child: const CircularProgressIndicator(
+                              color: ConstantTheme.c6,
+                              strokeWidth: 3,
+                            ),
+                          )
+                              : const Icon(Icons.add, color: ConstantTheme.c6,),
+                          label: const Text('Lưu sản phẩm', style: TextStyle(color: ConstantTheme.c6),),
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
-            )
-        )
+                  )
+                ],
+              )
+          )),
     );
   }
 
@@ -240,22 +249,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   List<Widget> buildImage(double width) {
     List<Widget> widgets = [];
     List<Widget> items = [];
-    for (var element in imageFiles) {
-      items.add(Container(
-          width: width,
-          height: width,
-          margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              border: Border.all(color: Colors.blueAccent)
-          ),
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: AspectRatio(
-                aspectRatio: 1.0,
-                child: Image.file(element),
-              ))),
-      );
+    for (var index = 0; index < imageFiles.length; index++) {
+      items.add(_buildImageSelected(Image.file(imageFiles[index]), index, width));
       if (items.length == 3) {
         widgets.add(Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -264,7 +259,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ));
         items = [];
       }
-    }if (items.length != 3) {
+    }
+    if (items.length != 3) {
       widgets.add(Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,6 +270,58 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
     widgets.add(buttonSelectImage());
     return widgets;
+  }
+
+  Widget _buildImageSelected(Image img, int index, double width) {
+    return Container(
+      width: width,
+      height: width,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        border: Border.all(color: Colors.blueAccent),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          if (selectImageIndex >= 0 && selectImageIndex == index) {
+            imageFiles.removeAt(index);
+            setState(() {
+              selectImageIndex = -1;
+            });
+          } else {
+            setState(() {
+              selectImageIndex = index;
+            });
+          }
+        },
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: AspectRatio(
+                aspectRatio: 1.0,
+                child: img,
+              ),
+            ),
+            if (selectImageIndex == index)
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black.withOpacity(0.5), // Màu mờ
+                  child: const Center(
+                    child: Text(
+                      'Xóa',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buttonSelectImage() {
