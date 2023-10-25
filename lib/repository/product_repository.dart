@@ -10,6 +10,10 @@ Future<void> addProduct(Product product) async {
   await db.add(product.toJson());
 }
 
+Future<void> updateProduct(Product product) async {
+  await db.doc(product.id).update(product.toJson());
+}
+
 Future<List<Product>> getAllProduct(String sort, int size, QuerySnapshot _querySnapshot) async {
   var email = FirebaseAuth.instance.currentUser?.email;
   List<Product> product = [];

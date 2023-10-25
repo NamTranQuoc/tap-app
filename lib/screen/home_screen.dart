@@ -1,11 +1,11 @@
-import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:taph/common/constant_theme.dart';
 import 'package:taph/screen/product/add_product_screen.dart';
 import 'package:taph/screen/product/list_product_view.dart';
+
+import '../common/common_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -86,16 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         )
     );
-  }
-
-  Widget buildBarcode(String barcode) {
-    /// Create the Barcode
-    final svg = Barcode.code128().toSvg(
-      barcode,
-      width: 300,
-      height: 100,
-    );
-    return SvgPicture.string(svg);
   }
 
   Future<String> scanBarcodeNormal() async {

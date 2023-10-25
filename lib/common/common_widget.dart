@@ -1,6 +1,8 @@
 
+import 'package:barcode/barcode.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:taph/common/constant_theme.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -125,4 +127,14 @@ Widget multiSelectField(String label,
           setState(value);
         },
       ));
+}
+
+Widget buildBarcode(String barcode) {
+  /// Create the Barcode
+  final svg = Barcode.code128().toSvg(
+    barcode,
+    width: 300,
+    height: 100,
+  );
+  return SvgPicture.string(svg);
 }

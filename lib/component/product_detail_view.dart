@@ -1,6 +1,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:taph/screen/product/edit_product_screen.dart';
 
 import '../common/constant_theme.dart';
 import '../common/parse.dart';
@@ -300,14 +301,30 @@ class _ProductDetailView extends State<ProductDetailView>
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.0)),
                   elevation: 10.0,
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: 60,
                     height: 60,
                     child: Center(
-                      child: Icon(
-                        Icons.favorite,
-                        color: ConstantTheme.nearlyWhite,
-                        size: 30,
+                      child: InkWell(
+                        child: const Icon(
+                          Icons.edit,
+                          color: ConstantTheme.nearlyWhite,
+                          size: 30,
+                        ),
+                        onTap: () {
+                          Navigator.push<bool>(
+                            context,
+                            MaterialPageRoute<bool>(
+                              builder: (BuildContext context) => EditProductScreen(
+                                product: widget.product!,
+                              ),
+                            ),
+                          ).then((value) {
+                            if (value != null && value) {
+                              setState(() => {});
+                            }
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -316,25 +333,26 @@ class _ProductDetailView extends State<ProductDetailView>
             ),
             Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: SizedBox(
-                width: AppBar().preferredSize.height,
-                height: AppBar().preferredSize.height,
-                child: Material(
-                  color: Colors.transparent,
+              child: Card(
+                color: ConstantTheme.nearlyWhite,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0)),
+                elevation: 10.0,
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
                   child: InkWell(
-                    borderRadius:
-                        BorderRadius.circular(AppBar().preferredSize.height),
                     child: const Icon(
-                      Icons.arrow_back_ios,
+                      Icons.arrow_back_ios_new,
                       color: ConstantTheme.nearlyBlack,
+                      size: 30,
                     ),
                     onTap: () {
                       Navigator.pop(context);
                     },
-                  ),
                 ),
               ),
-            )
+            ))
           ],
         ),
       ),

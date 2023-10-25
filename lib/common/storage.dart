@@ -5,6 +5,10 @@ import 'package:image/image.dart' as img;
 
 final storageRef = FirebaseStorage.instance.ref();
 
+void deleteImage(String location) async {
+  storageRef.child(location).delete();
+}
+
 Future<String> uploadImage(File file, {String? location}) async {
   var path = location ?? 'images/${DateTime.now().millisecondsSinceEpoch}.png';
 // Create the file metadata
@@ -51,7 +55,7 @@ Future<File> resizeImage(File imageFile) async {
 
   if (decodedImage != null) {
     final resizedImage = img.copyResize(decodedImage, width: 200);
-    final resizedBytes = img.encodeJpg(resizedImage, quality: 80);
+    final resizedBytes = img.encodeJpg(resizedImage, quality: 100);
     final resizedFile = File(imageFile.path)..writeAsBytesSync(resizedBytes);
 
     return resizedFile;
