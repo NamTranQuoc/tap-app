@@ -12,13 +12,15 @@ class ProductView extends StatelessWidget {
       this.product,
       this.animationController,
       this.animation,
-      this.callback})
+      this.callback,
+      required this.reloadProduct})
       : super(key: key);
 
   final VoidCallback? callback;
   final Product? product;
   final AnimationController? animationController;
   final Animation<double>? animation;
+  final VoidCallback reloadProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,9 @@ class ProductView extends StatelessWidget {
                       product: product,
                     ),
                   ),
-                );
+                ).then((value) {
+                  reloadProduct();
+                });
               },
               child: SizedBox(
                 height: 1000,

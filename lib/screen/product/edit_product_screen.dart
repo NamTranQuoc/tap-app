@@ -125,71 +125,125 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, bottom: 16, top: 8),
-                  child: Container(
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: ConstantTheme.nearlyBlue,
-                      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          blurRadius: 8,
-                          offset: const Offset(4, 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        height: 48,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: ConstantTheme.nearlyBlue,
+                          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              blurRadius: 8,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: OutlinedButton.icon(
-                        onPressed: _isLoading ? null : () {
-                          setState(() => _isLoading = true);
-                          for (var element in imageDelete) {
-                            deleteImage(element);
-                          }
-                          if (_formKey.currentState!.validate() && (imageFiles.isNotEmpty || widget.product.images.isNotEmpty)) {
-                            uploadImages().then((value) {
-                              // var email = FirebaseAuth.instance.currentUser?.email;
-                              widget.product.name = name.text;
-                              widget.product.description = description.text;
-                              widget.product.types = types.map((e) {
-                                return ProductType.fromController(e);
-                              }).toList();
-                              widget.product.images.addAll(value);
-                              updateProduct(widget.product).then((value) {
-                                Navigator.pop(context, true);
-                              });
-                            });
-                          } else {
-                            if (imageFiles.isEmpty) {
-                              _errorImage = true;
-                            }
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          }
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0)
-                          )),
-                          backgroundColor: MaterialStateProperty.all(ConstantTheme.nearlyBlue),
-                          side: MaterialStateProperty.all(const BorderSide(width: 5.0, color: ConstantTheme.nearlyBlue)),
-                        ),
-                        icon: _isLoading
-                            ? Container(
-                          width: 24,
-                          height: 24,
-                          padding: const EdgeInsets.all(2.0),
-                          child: const CircularProgressIndicator(
-                            color: ConstantTheme.c6,
-                            strokeWidth: 3,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: OutlinedButton.icon(
+                            onPressed: _isLoading ? null : () {
+                              setState(() => _isLoading = true);
+                              for (var element in imageDelete) {
+                                deleteImage(element);
+                              }
+                              if (_formKey.currentState!.validate() && (imageFiles.isNotEmpty || widget.product.images.isNotEmpty)) {
+                                uploadImages().then((value) {
+                                  // var email = FirebaseAuth.instance.currentUser?.email;
+                                  widget.product.name = name.text;
+                                  widget.product.description = description.text;
+                                  widget.product.types = types.map((e) {
+                                    return ProductType.fromController(e);
+                                  }).toList();
+                                  widget.product.images.addAll(value);
+                                  updateProduct(widget.product).then((value) {
+                                    Navigator.pop(context, "updated");
+                                  });
+                                });
+                              } else {
+                                if (imageFiles.isEmpty) {
+                                  _errorImage = true;
+                                }
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            },
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0)
+                              )),
+                              backgroundColor: MaterialStateProperty.all(ConstantTheme.nearlyBlue),
+                              side: MaterialStateProperty.all(const BorderSide(width: 5.0, color: ConstantTheme.nearlyBlue)),
+                            ),
+                            icon: _isLoading
+                                ? Container(
+                              width: 24,
+                              height: 24,
+                              padding: const EdgeInsets.all(2.0),
+                              child: const CircularProgressIndicator(
+                                color: ConstantTheme.c6,
+                                strokeWidth: 3,
+                              ),
+                            )
+                                : const Icon(Icons.add, color: ConstantTheme.c6,),
+                            label: const Text('Cập nhật', style: TextStyle(color: ConstantTheme.c6),),
                           ),
-                        )
-                            : const Icon(Icons.add, color: ConstantTheme.c6,),
-                        label: const Text('Cập nhật sản phẩm', style: TextStyle(color: ConstantTheme.c6),),
+                        ),
                       ),
-                    ),
-                  ),
+                      Container(
+                        height: 48,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: ConstantTheme.nearlyRed,
+                          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              blurRadius: 8,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: OutlinedButton.icon(
+                            onPressed: _isLoading ? null : () {
+                              setState(() => _isLoading = true);
+                              for (var element in widget.product.images) {
+                                deleteImage(element);
+                              }
+                              deleteProduct(widget.product).then((value) {
+                                Navigator.pop(context, "deleted");
+                              });
+                            },
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0)
+                              )),
+                              backgroundColor: MaterialStateProperty.all(ConstantTheme.nearlyRed),
+                              side: MaterialStateProperty.all(const BorderSide(width: 5.0, color: ConstantTheme.nearlyRed)),
+                            ),
+                            icon: _isLoading
+                                ? Container(
+                              width: 24,
+                              height: 24,
+                              padding: const EdgeInsets.all(2.0),
+                              child: const CircularProgressIndicator(
+                                color: ConstantTheme.c6,
+                                strokeWidth: 3,
+                              ),
+                            )
+                                : const Icon(Icons.recycling, color: ConstantTheme.c6,),
+                            label: const Text('Xóa', style: TextStyle(color: ConstantTheme.c6),),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 )
               ],
             )
@@ -465,7 +519,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     Radius.circular(32.0),
                   ),
                   onTap: () {
-                    Navigator.pop(context, false);
+                    Navigator.pop(context, "none");
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -477,7 +531,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             const Expanded(
               child: Center(
                 child: Text(
-                  'Thêm sản phẩm',
+                  'Cập nhật sản phẩm',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 22,

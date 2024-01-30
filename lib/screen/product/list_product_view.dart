@@ -45,6 +45,7 @@ class _ListProductViewState extends State<ListProductView>
     products = [];
     firstLoading = true;
     hasMore = true;
+    setState(() => {});
     await db.count().get().then((value) {
       total = value.count;
       getProducts();
@@ -117,6 +118,7 @@ class _ListProductViewState extends State<ListProductView>
                   animation: animation,
                   animationController: animationController,
                   callback: getProducts,
+                  reloadProduct: reloadProduct,
                 );
               }).toList(),
             ),

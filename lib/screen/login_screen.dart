@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("NFO", style: TextStyle(color: ConstantTheme.nearlyBlue, fontSize: 80, fontWeight: FontWeight.bold),),
+                    const Text("QN", style: TextStyle(color: ConstantTheme.nearlyBlue, fontSize: 80, fontWeight: FontWeight.bold),),
                     const SizedBox(height: 40,),
                     textField("email", email, autovalidateMode: AutovalidateMode.disabled, validator: (value) {
                       const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"

@@ -312,16 +312,18 @@ class _ProductDetailView extends State<ProductDetailView>
                           size: 30,
                         ),
                         onTap: () {
-                          Navigator.push<bool>(
+                          Navigator.push<String>(
                             context,
-                            MaterialPageRoute<bool>(
+                            MaterialPageRoute<String>(
                               builder: (BuildContext context) => EditProductScreen(
                                 product: widget.product!,
                               ),
                             ),
                           ).then((value) {
-                            if (value != null && value) {
+                            if (value != null && value == "updated") {
                               setState(() => {});
+                            } else if (value != null && value == "deleted") {
+                              Navigator.pop(context, true);
                             }
                           });
                         },
@@ -348,7 +350,7 @@ class _ProductDetailView extends State<ProductDetailView>
                       size: 30,
                     ),
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                 ),
               ),
